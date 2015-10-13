@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinqExtensionDemo", "LinqExtensionDemo\LinqExtensionDemo.csproj", "{9A904626-E9EC-41E2-8733-A7603E43D0A4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinqExtension", "LinqExtension\LinqExtension.csproj", "{CE7CF0B7-3FAA-4DF8-AA82-C02CBA33B892}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{9A904626-E9EC-41E2-8733-A7603E43D0A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A904626-E9EC-41E2-8733-A7603E43D0A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A904626-E9EC-41E2-8733-A7603E43D0A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE7CF0B7-3FAA-4DF8-AA82-C02CBA33B892}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE7CF0B7-3FAA-4DF8-AA82-C02CBA33B892}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE7CF0B7-3FAA-4DF8-AA82-C02CBA33B892}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE7CF0B7-3FAA-4DF8-AA82-C02CBA33B892}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

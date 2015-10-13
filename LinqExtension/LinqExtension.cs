@@ -1,90 +1,46 @@
-/*
- * Licensing :
- * LINQExtension is free.
- * The source code is issued under a permissive free license, which means you can modify it as you like, and incorporate it into your own commercial or non-commercial software.
- * Enjoy!
- */
-
-/*
- * @author  Ben Heddia Khalil    benhddia-khalil@live.fr
- * @version 1.0, 01/03/2014 
- * @.NET FRAMEWORk 3.5 +
- */
-
-
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
-using LinqKit;
 
 namespace LinqExtension
 {
     public static class LinqExtensions
     {
-        private static Type GetTypeFromString(string type)
-        {
-            object obj;
-            var u = Type.GetType("System." + type);
-            if (u == typeof(string))
-            {
-                return typeof(string);
-            }
-
-            if (u != null)
-            {
-                obj = Activator.CreateInstance(u);
-            }
-            else
-            {
-                return null;
-            }
-
-            return obj.GetType();
-
-        }
-
         private static Expression<Func<T, bool>> BuildPredicate<T>(string member, object value)
         {
             var column = member.ToUpper();
-            bool verif = false;
-            Type PropertyType = null;
-            PropertyInfo property = null;
-            string PropertyTypeName = string.Empty;
+            var verif = false;
+            var propertyTypeName = string.Empty;
 
             foreach (var type in typeof(T).GetProperties())
             {
                 if (type.ToString().ToUpper().Contains(column.ToUpper()))
                 {
                     verif = true;
-                    property = type;
+                    var property = type;
                     if (property.PropertyType.Name.Contains("Nullable"))
                     {
                         if (property.PropertyType.ToString().Contains("DateTime"))
                         {
-                            PropertyTypeName = "DateTime";
-                            //PropertyType = GetTypeFromString(PropertyTypeName);
+                            propertyTypeName = "DateTime";
                         }
                         else
                         {
                             if (property.PropertyType.ToString().Contains("Int32"))
                             {
-                                PropertyTypeName = "Int32";
-                                //PropertyType = GetTypeFromString(PropertyTypeName);
+                                propertyTypeName = "Int32";
                             }
                             else
                             {
-                                PropertyTypeName = "Double";
-                                //PropertyType = GetTypeFromString(PropertyTypeName);
+                                propertyTypeName = "Double";
                             }
                         }
                     }
                     else
                     {
-                        PropertyTypeName = property.PropertyType.Name.ToString();
-                        //PropertyType = GetTypeFromString(PropertyTypeName);
+                        propertyTypeName = property.PropertyType.Name;
                     }
                     break;
                 }
@@ -92,18 +48,17 @@ namespace LinqExtension
 
             if (verif)
             {
-                var propertyType = property.PropertyType.Name;
                 var p = Expression.Parameter(typeof(T), "entity");
                 Expression body = p;
                 body = Expression.PropertyOrField(body, member);
-                switch (PropertyTypeName)
+                switch (propertyTypeName)
                 {
                     case "Int32":
                         {
                             #region traitement des entiers
 
-                            string[] operations = new string[] { ">=", "<=", "<", ">", "=" };
-                            string operation = "=";
+                            var operations = new[] { ">=", "<=", "<", ">", "=" };
+                            var operation = "=";
                             foreach (var op in operations)
                             {
                                 if (value.ToString().StartsWith(op))
@@ -143,7 +98,7 @@ namespace LinqExtension
                         {
                             #region traitement des string
 
-                            string operation = "Contains";
+                            var operation = "Contains";
                             if (value.ToString().StartsWith("%") && !value.ToString().EndsWith("%"))
                             {
                                 operation = "StartsWith";
@@ -179,8 +134,8 @@ namespace LinqExtension
                         {
                             #region traitement des decimales
 
-                            string[] operations = new string[] { ">=", "<=", "<", ">", "=" };
-                            string operation = "=";
+                            var operations = new[] { ">=", "<=", "<", ">", "=" };
+                            var operation = "=";
                             foreach (var op in operations)
                             {
                                 if (value.ToString().StartsWith(op))
@@ -220,8 +175,8 @@ namespace LinqExtension
                         {
                             #region traitement des dates
 
-                            string[] operations = new string[] { ">=", "<=", "<", ">", "=" };
-                            string operation = "=";
+                            var operations = new[] { ">=", "<=", "<", ">", "=" };
+                            var operation = "=";
                             foreach (var op in operations)
                             {
                                 if (value.ToString().StartsWith(op))
@@ -234,17 +189,21 @@ namespace LinqExtension
                             DateTime objDate;
                             if (string.IsNullOrEmpty(value.ToString()))
                             {
-                                DateTimeFormatInfo dtfi = new DateTimeFormatInfo();
-                                dtfi.ShortDatePattern = "dd/MM/yyyy";
-                                dtfi.DateSeparator = "/";
+                                var dtfi = new DateTimeFormatInfo
+                                {
+                                    ShortDatePattern = "dd/MM/yyyy",
+                                    DateSeparator = "/"
+                                };
                                 objDate = Convert.ToDateTime("1/1/1900", dtfi);
                                 return Expression.Lambda<Func<T, bool>>(Expression.GreaterThanOrEqual(body, Expression.Constant(objDate, body.Type)), p);
                             }
                             else
                             {
-                                DateTimeFormatInfo dtfi = new DateTimeFormatInfo();
-                                dtfi.ShortDatePattern = "dd/MM/yyyy";
-                                dtfi.DateSeparator = "/";
+                                var dtfi = new DateTimeFormatInfo
+                                {
+                                    ShortDatePattern = "dd/MM/yyyy",
+                                    DateSeparator = "/"
+                                };
                                 objDate = Convert.ToDateTime(value, dtfi);
                             }
 
@@ -279,8 +238,8 @@ namespace LinqExtension
                         {
                             #region traitement des dates
 
-                            string[] operations = new string[] { ">=", "<=", "<", ">", "=" };
-                            string operation = "=";
+                            var operations = new[] { ">=", "<=", "<", ">", "=" };
+                            var operation = "=";
                             foreach (var op in operations)
                             {
                                 if (value.ToString().StartsWith(op))
@@ -293,17 +252,21 @@ namespace LinqExtension
                             DateTimeOffset objDate;
                             if (string.IsNullOrEmpty(value.ToString()))
                             {
-                                DateTimeFormatInfo dtfi = new DateTimeFormatInfo();
-                                dtfi.ShortDatePattern = "dd/MM/yyyy";
-                                dtfi.DateSeparator = "/";
+                                var dtfi = new DateTimeFormatInfo
+                                {
+                                    ShortDatePattern = "dd/MM/yyyy",
+                                    DateSeparator = "/"
+                                };
                                 objDate = Convert.ToDateTime("1/1/1900", dtfi);
                                 return Expression.Lambda<Func<T, bool>>(Expression.GreaterThanOrEqual(body, Expression.Constant(objDate, body.Type)), p);
                             }
                             else
                             {
-                                DateTimeFormatInfo dtfi = new DateTimeFormatInfo();
-                                dtfi.ShortDatePattern = "dd/MM/yyyy";
-                                dtfi.DateSeparator = "/";
+                                var dtfi = new DateTimeFormatInfo
+                                {
+                                    ShortDatePattern = "dd/MM/yyyy",
+                                    DateSeparator = "/"
+                                };
                                 objDate = Convert.ToDateTime(value, dtfi);
                             }
 
@@ -339,8 +302,8 @@ namespace LinqExtension
                             #region traitement les Double
 
 
-                            string[] operations = new string[] { ">=", "<=", "<", ">", "=" };
-                            string operation = "=";
+                            var operations = new[] { ">=", "<=", "<", ">", "=" };
+                            var operation = "=";
                             foreach (var op in operations)
                             {
                                 if (value.ToString().StartsWith(op))
