@@ -10,20 +10,24 @@ namespace LinqExtension
         {
             try
             {
-                //Console.WriteLine("Start Test1:");
-                //Test1();
-                //Console.WriteLine();
+                Console.WriteLine("Start Test1:");
+                Test1();
+                Console.WriteLine();
 
-                //Console.WriteLine("Start Test2:");
-                //Test2();
-                //Console.WriteLine();
+                Console.WriteLine("Start Test2:");
+                Test2();
+                Console.WriteLine();
 
-                //Console.WriteLine("Start Test3:");
-                //Test3();
-                //Console.WriteLine();
+                Console.WriteLine("Start Test3:");
+                Test3();
+                Console.WriteLine();
 
                 Console.WriteLine("Start Test4:");
                 Test4();
+                Console.WriteLine();
+
+                Console.WriteLine("Start Test5:");
+                Test5();
                 Console.WriteLine();
             }
             catch (Exception e)
@@ -64,9 +68,9 @@ namespace LinqExtension
             var items = Enumerable.Range(-5, 10);
 
             //奇数
-            ISpec<int> oddSpec = new Specification<int>(it => it % 2 != 0);
+            ISpec<int> oddSpec = new FuncSpec<int>(it => it % 2 != 0);
             //正数
-            ISpec<int> positiveSpec = new Specification<int>(it => it > 0);
+            ISpec<int> positiveSpec = new FuncSpec<int>(it => it > 0);
 
             var spec = oddSpec.Or(positiveSpec);
             //var spec = oddSpec.Add(positiveSpec);
@@ -106,6 +110,23 @@ namespace LinqExtension
             var spec = oddSpec.Or(positiveSpec);
 
             foreach (var i in items.Where(it => spec(it)))
+            {
+                Console.WriteLine(i);
+            }
+        }
+
+        private static void Test5()
+        {
+            var items = Enumerable.Range(-5, 10);
+
+            //奇数
+            ISpec<int> oddSpec = new OddSpec();
+            //正数
+            ISpec<int> positiveSpec = new PositiveSpec();
+
+            var spec = oddSpec.Or(positiveSpec);
+
+            foreach (var i in items.Where(it => spec.IsSatisfiedBy(it)))
             {
                 Console.WriteLine(i);
             }

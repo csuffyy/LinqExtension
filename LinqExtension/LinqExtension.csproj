@@ -49,7 +49,10 @@
     <Compile Include="LinqExtension.cs" />
     <Compile Include="PredicateBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Spec.cs" />
+    <Compile Include="Specification\ISpec.cs" />
+    <Compile Include="Specification\Spec.cs" />
+    <Compile Include="Specification\SpecExtensitions.cs" />
+    <Compile Include="Specification\FuncSpec.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
