@@ -4,15 +4,27 @@ using System.Linq;
 
 namespace LinqExtension
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            Console.WriteLine("Start:");
-
             try
             {
-                Test();
+                //Console.WriteLine("Start Test1:");
+                //Test1();
+                //Console.WriteLine();
+
+                //Console.WriteLine("Start Test2:");
+                //Test2();
+                //Console.WriteLine();
+
+                //Console.WriteLine("Start Test3:");
+                //Test3();
+                //Console.WriteLine();
+
+                Console.WriteLine("Start Test4:");
+                Test4();
+                Console.WriteLine();
             }
             catch (Exception e)
             {
@@ -22,7 +34,7 @@ namespace LinqExtension
             Console.ReadLine();
         }
 
-        private static void Test()
+        private static void Test1()
         {
             var users = Enumerable.Range(0, 100).Select((x, i) => new User
             {
@@ -44,6 +56,58 @@ namespace LinqExtension
             foreach (var user in query)
             {
                 Console.WriteLine(user);
+            }
+        }
+
+        private static void Test2()
+        {
+            var items = Enumerable.Range(-5, 10);
+
+            //奇数
+            ISpec<int> oddSpec = new Specification<int>(it => it % 2 != 0);
+            //正数
+            ISpec<int> positiveSpec = new Specification<int>(it => it > 0);
+
+            var spec = oddSpec.Or(positiveSpec);
+            //var spec = oddSpec.Add(positiveSpec);
+
+            foreach (var i in items.Where(it => spec.IsSatisfiedBy(it)))
+            {
+                Console.WriteLine(i);
+            }
+        }
+
+        private static void Test3()
+        {
+            var items = Enumerable.Range(-5, 10);
+
+            //奇数
+            Spec<int> oddSpec = it => it % 2 != 0;
+            //正数
+            Spec<int> positiveSpec = it => it > 0;
+
+            var spec = oddSpec.Or(positiveSpec);
+
+            foreach (var i in items.Where(it => spec(it)))
+            {
+                Console.WriteLine(i);
+            }
+        }
+
+        private static void Test4()
+        {
+            var items = Enumerable.Range(-5, 10);
+
+            //奇数
+            Func<int, bool> oddSpec = it => it % 2 != 0;
+            //正数
+            Func<int, bool> positiveSpec = it => it > 0;
+
+            var spec = oddSpec.Or(positiveSpec);
+
+            foreach (var i in items.Where(it => spec(it)))
+            {
+                Console.WriteLine(i);
             }
         }
     }

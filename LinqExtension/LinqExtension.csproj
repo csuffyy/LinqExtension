@@ -49,6 +49,7 @@
     <Compile Include="LinqExtension.cs" />
     <Compile Include="PredicateBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Spec.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
